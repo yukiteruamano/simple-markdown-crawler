@@ -31,8 +31,8 @@ This is a fork from markdown-crawler created by Paul Pierre (abandoned)
 
 logger = logging.getLogger(__name__)
 DEFAULT_BASE_DIR = "markdown"
-DEFAULT_MAX_DEPTH = 3
-DEFAULT_NUM_THREADS = 5
+DEFAULT_MAX_DEPTH = 1
+DEFAULT_NUM_THREADS = 1
 DEFAULT_TARGET_CONTENT = ["article", "div", "main", "p"]
 DEFAULT_TARGET_LINKS = ["body"]
 DEFAULT_DOMAIN_MATCH = True
