@@ -7,6 +7,7 @@ md_crawl(
     num_threads=5,
     base_dir='markdown',
     valid_paths=['/wiki'],
+    exclude_paths=[],
     target_content=['div#content'],
     is_domain_match=True,
     is_base_path_match=False,

@@ -22,6 +22,7 @@ def main():
     arg_parser.add_argument('--target-content', '-c', required=False, type=str, default=DEFAULT_TARGET_CONTENT, help='CSS target path of the content to extract from each page')
     arg_parser.add_argument('--target-links', '-l', required=False, type=str, default=DEFAULT_TARGET_LINKS, help='CSS target path containing the links to crawl')
     arg_parser.add_argument('--valid-paths', '-v', required=False, type=str, default=None, help='Comma separated list of valid relative paths to crawl, (ex. /wiki,/categories,/help')
+    arg_parser.add_argument('--exclude-paths', '-x', required=False, type=str, default=None, help='Comma separated list of exclude relative paths to crawl, (ex. /wiki,/categories,/help')
     arg_parser.add_argument('--domain-match', '-m', action='store_true', default=DEFAULT_DOMAIN_MATCH, help='Crawl only links that match the base domain')
     arg_parser.add_argument('--base-path-match', '-p', action='store_true', default=DEFAULT_BASE_PATH_MATCH, help='Crawl only links that match the base path of the base_url specified in CLI')
     arg_parser.add_argument('--links', '-i', action='store_true', default=True, help='Enable the conversion of links in the markdown output')
@@ -42,6 +43,7 @@ def main():
         target_content=args.target_content.split(',') if args.target_content and ',' in args.target_content else None,
         target_links=args.target_links.split(',') if args.target_links and ',' in args.target_links else [args.target_links],
         valid_paths=args.valid_paths.split(',') if args.valid_paths and ',' in args.valid_paths else None,
+        exclude_paths=args.exclude_paths.split(',') if args.exclude_paths and ',' in args.exclude_paths else None,
         is_domain_match=args.domain_match,
         is_base_path_match=args.base_path_match,
         is_debug=args.debug,
