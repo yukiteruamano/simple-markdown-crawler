@@ -1,5 +1,5 @@
 import argparse
-from markdown_crawler import (
+from simple_markdown_crawler import (
     md_crawl,
     DEFAULT_TARGET_LINKS,
     DEFAULT_BASE_DIR,

@@ -13,10 +13,10 @@ from typing import (
     Optional,
     Union
 )
-__version__ = '0.1'
-__author__ = 'Paul Pierre (github.com/paulpierre)'
-__copyright__ = "(C) 2023 Paul Pierre. MIT License."
-__contributors__ = ['Paul Pierre']
+__version__ = '0.1.0'
+__author__ = 'Jose Maldonado (github.com/yukiteruamano)'
+__copyright__ = "(C) 2023 Paul Pierre. MIT License. 2025 Jose Maldonado. MIT License"
+__contributors__ = ['Jose Maldonado']
 
 BANNER = """
                 |                                     |             
@@ -24,10 +24,11 @@ BANNER = """
  |   |   |  (   |       (     |     (   |  \ \  \ /   |   __/  |    
 _|  _|  _| \__._|      \___| _|    \__._|   \_/\_/   _| \___| _|    
 
--------------------------------------------------------------------------
+----------------------------------------------------------------------------
 A multithreaded 🕸️ web crawler that recursively crawls a website and
-creates a 🔽 markdown file for each page by https://github.com/paulpierre
--------------------------------------------------------------------------
+creates a 🔽 markdown file for each page by https://github.com/yukiteruamano
+This is a fork from markdown-crawler created by Paul Pierre (abandoned)
+----------------------------------------------------------------------------
 """
 
 logger = logging.getLogger(__name__)
@@ -71,6 +72,7 @@ def crawl(
     target_links: Union[str, List[str]] = DEFAULT_TARGET_LINKS,
     target_content: Union[str, List[str]] = None,
     valid_paths: Union[str, List[str]] = None,
+    exclude_paths: Union[str, List[str]] = None,
     is_domain_match: Optional[bool] = DEFAULT_DOMAIN_MATCH,
     is_base_path_match: Optional[bool] = DEFAULT_BASE_PATH_MATCH,
     is_links: Optional[bool] = False
@@ -137,7 +139,7 @@ def crawl(
             # ------------------------------
             # Write markdown content to file
             # ------------------------------
-            with open(file_path, 'w') as f:
+            with open(file_path, 'w', encoding="utf-8") as f:
                 f.write(output)
         else:
             logger.error(f'❌ Empty content for {file_path}. Please check your targets skipping.')
@@ -147,6 +149,7 @@ def crawl(
         base_url,
         target_links,
         valid_paths=valid_paths,
+        exclude_paths=exclude_paths,
         is_domain_match=is_domain_match,
         is_base_path_match=is_base_path_match    
     )
@@ -175,13 +178,15 @@ def get_target_content(
     # ---------------------------
     else:
         max_text_length = 0
+        ok = False
         for tag in soup.find_all(DEFAULT_TARGET_CONTENT):
             text_length = len(tag.get_text())
             if text_length > max_text_length:
                 max_text_length = text_length
                 main_content = tag
+                ok = True
 
-        content = str(main_content)
+        content = str(main_content) if ok else ""
 
     return content if len(content) > 0 else False
 
@@ -191,11 +196,15 @@ def get_target_links(
     base_url: str,
     target_links: List[str] = DEFAULT_TARGET_LINKS,
     valid_paths: Union[List[str], None] = None,
+    exclude_paths: Union[List[str], None] = None,
     is_domain_match: Optional[bool] = DEFAULT_DOMAIN_MATCH,
     is_base_path_match: Optional[bool] = DEFAULT_BASE_PATH_MATCH
 ) -> List[str]:
 
     child_urls = []
+
+    logger.info(f'valid_paths : {valid_paths}') 
+    logger.info(f'exclude_paths : {exclude_paths}') 
 
     # Get all urls from target_links
     for target in soup.find_all(target_links):
@@ -213,6 +222,14 @@ def get_target_links(
         # ---------------------------------
         if is_domain_match and child_url.netloc != urllib.parse.urlparse(base_url).netloc:
             continue
+
+        if exclude_paths:
+            excluded = False
+            for exclude_path in exclude_paths:
+                if child_url.path.startswith(urllib.parse.urlparse(exclude_path).path):
+                    excluded = True
+                    break
+            if excluded: continue
 
         if is_base_path_match and child_url.path.startswith(urllib.parse.urlparse(base_url).path):
             result.append(u)
@@ -239,6 +256,7 @@ def worker(
     target_links: Union[List[str], None] = DEFAULT_TARGET_LINKS,
     target_content: Union[List[str], None] = None,
     valid_paths: Union[List[str], None] = None,
+    exclude_paths: Union[List[str], None] = None,
     is_domain_match: bool = None,
     is_base_path_match: bool = None,
     is_links: Optional[bool] = False
@@ -260,6 +278,7 @@ def worker(
             target_links,
             target_content,
             valid_paths,
+            exclude_paths,
             is_domain_match,
             is_base_path_match,
             is_links
@@ -281,6 +300,7 @@ def md_crawl(
         target_links: Union[str, List[str]] = DEFAULT_TARGET_LINKS,
         target_content: Union[str, List[str]] = None,
         valid_paths: Union[str, List[str]] = None,
+        exclude_paths: Union[List[str], None] = None,
         is_domain_match: Optional[bool] = None,
         is_base_path_match: Optional[bool] = None,
         is_debug: Optional[bool] = False,
@@ -303,6 +323,9 @@ def md_crawl(
 
     if isinstance(valid_paths, str):
         valid_paths = valid_paths.split(',') if ',' in valid_paths else [valid_paths]
+
+    if isinstance(exclude_paths, str):
+        exclude_paths = exclude_paths.split(',') if ',' in exclude_paths else [exclude_paths]
 
     if is_debug:
         logging.basicConfig(level=logging.DEBUG)
@@ -343,6 +366,7 @@ def md_crawl(
                 target_links,
                 target_content,
                 valid_paths,
+                exclude_paths,
                 is_domain_match,
                 is_base_path_match,
                 is_links
@@ -356,4 +380,4 @@ def md_crawl(
     for t in threads:
         t.join()
 
-    logger.info('🏁 All threads have finished')
+logger.info('🏁 All threads have finished')

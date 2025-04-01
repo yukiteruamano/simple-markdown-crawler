@@ -4,24 +4,29 @@ build-backend = "setuptools.build_meta"
 
 
 [project]
-name = "markdown-crawler"
-version = "0.0.8"
+name = "simple-markdown-crawler"
+version = "0.1.0"
 authors = [
-  { name="Paul Pierre", email="hi@paulpierre.com" },
+  { name="Jose Maldonado", email="josemald89@gmail.com" },
 ]
 description = "A multithreaded 🕸️ web crawler that recursively crawls a website and creates a 🔽 markdown file for each page"
 readme = "README.md"
-requires-python = ">=3.4"
+requires-python = ">=3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "beautifulsoup4>=4.13.0",
+    "markdownify>=1.1.0",
+    "requests>=2.32.0",
+]
 
 [project.urls]
-"Homepage" = "https://github.com/paulpierre/markdown-crawler"
-"Bug Tracker" = "https://github.com/paulpierre/markdown-crawler/issues"
-"Twitter" = "https://twitter.com/paulpierre"
+"Homepage" = "https://github.com/yukiteruamano/simple-markdown-crawler"
+"Bug Tracker" = "https://github.com/yukiteruamano/simple-markdown-crawler/issues"
+"Twitter" = "https://x.com/Yukiteru_Amano"
 
 [project.scripts]
-markdown-crawler = "markdown_crawler.cli:main"
+simple-markdown-crawler = "simple_markdown_crawler.cli:main"
