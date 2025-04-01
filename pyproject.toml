@@ -12,9 +12,9 @@ authors = [
 description = "A multithreaded 🕸️ web crawler that recursively crawls a website and creates a 🔽 markdown file for each page"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = [
