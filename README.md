@@ -45,7 +45,31 @@ Markdown by nature is human readable and maintains document structure while keep
 
 # 🚀 Get started
 
-If you wish to simply use it in the CLI, you can run the following command:
+## 🧪 Development setup
+
+This project uses [uv](https://docs.astral.sh/uv/) for dependency management and
+[ruff](https://docs.astral.sh/ruff/) for linting and formatting. Make sure you have `uv` installed.
+
+Install dependencies (including dev tools):
+```
+uv sync --dev
+```
+
+Run the crawler from the repo:
+```
+uv run simple-markdown-crawler -t 5 -d 3 -b ./markdown https://en.wikipedia.org/wiki/Morty_Smith
+```
+
+Lint, format and test the code:
+```
+uv run ruff check .
+uv run ruff format .
+uv run pytest
+```
+
+## 🎁 Install as a package
+
+If you wish to simply use it in the CLI, you can install and run the package:
 
 Install the package
 ```
@@ -54,12 +78,6 @@ pip install simple-markdown-crawler
 
 Execute the CLI
 ```
-simple-markdown-crawler -t 5 -d 3 -b ./markdown https://en.wikipedia.org/wiki/Morty_Smith
-```
-
-To run from the github repo, once you have it checked out:
-```
-pip install .
 simple-markdown-crawler -t 5 -d 3 -b ./markdown https://en.wikipedia.org/wiki/Morty_Smith
 ```
 
@@ -73,6 +91,7 @@ md_crawl(url, max_depth=3, num_threads=5, base_path='markdown')
 
 # ⚠️  Requirements
 - Python 3.10+
+- [uv](https://docs.astral.sh/uv/) for development
 - BeautifulSoup4
 - requests
 - markdownify
@@ -82,11 +101,17 @@ md_crawl(url, max_depth=3, num_threads=5, base_path='markdown')
 
 The following arguments are supported
 ```
-usage: simple-markdown-crawler [-h] [--max-depth MAX_DEPTH] [--num-threads NUM_THREADS] [--base-path BASE_PATH] [--debug DEBUG]
-                  [--target-content TARGET_CONTENT] [--target-links TARGET_LINKS] [--valid-paths VALID_PATHS] [--exclude-paths EXCLUDE_PATHS]
-                  [--domain-match DOMAIN_MATCH] [--base-path-match BASE_PATH_MATCH]
-                  [--links ]
-                  base-url
+usage: simple-markdown-crawler [-h] [--max-depth MAX_DEPTH]
+                               [--num-threads NUM_THREADS]
+                               [--base-dir BASE_DIR] [--debug]
+                               [--target-content TARGET_CONTENT]
+                               [--target-links TARGET_LINKS]
+                               [--valid-paths VALID_PATHS]
+                               [--exclude-paths EXCLUDE_PATHS]
+                               [--domain-match | --no-domain-match | -m]
+                               [--base-path-match | --no-base-path-match | -p]
+                               [--links]
+                               base_url
 ```
 
 <br><br>

@@ -18,9 +18,15 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "beautifulsoup4>=4.13.0",
-    "markdownify>=1.1.0",
-    "requests>=2.32.0",
+    "beautifulsoup4>=4.15.0,<5",
+    "markdownify>=1.2.3,<2",
+    "requests>=2.34.2,<3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.16.2,<1",
 ]
 
 [project.urls]
@@ -30,3 +36,25 @@ dependencies = [
 
 [project.scripts]
 simple-markdown-crawler = "simple_markdown_crawler.cli:main"
+
+[tool.setuptools]
+packages = ["simple_markdown_crawler"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B", "S", "C4", "SIM", "PERF", "PTH", "G", "T20", "RUF", "TRY", "RET", "PIE", "INT"]
+ignore = ["D", "CPY001", "EM", "FBT", "TRY003", "T201", "S311"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
