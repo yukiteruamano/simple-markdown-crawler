@@ -60,11 +60,22 @@ Run the crawler from the repo:
 uv run simple-markdown-crawler -t 5 -d 3 -b ./markdown https://en.wikipedia.org/wiki/Morty_Smith
 ```
 
-Lint, format and test the code:
+### 🔧 Makefile
+
+Alternatively, a `Makefile` centralizes the common workflows with `make`:
+
 ```
-uv run ruff check .
-uv run ruff format .
-uv run pytest
+make install   # uv sync --dev
+make check     # ruff check
+make format    # ruff format
+make lint      # ruff check + format
+make lint-fix  # auto-fix lint + format
+make test      # pytest
+make build     # uv build (sdist + wheel, previa ejecución de tests)
+make publish   # uv publish a PyPI (requiere UV_PUBLISH_TOKEN)
+make sync      # uv lock --upgrade + uv sync --dev
+make clean     # elimina dist/ y artefactos de build
+make help      # muestra los targets disponibles
 ```
 
 ## 🎁 Install as a package
