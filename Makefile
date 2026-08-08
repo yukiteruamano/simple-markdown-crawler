@@ -2,7 +2,7 @@
 RUFF  := uv run ruff
 PYTEST := uv run pytest
 
-.PHONY: help install sync check format lint lint-fix test build publish clean clean-dist
+.PHONY: help install sync check format lint lint-fix test build publish clean
 
 .DEFAULT_GOAL := help
 
@@ -37,8 +37,7 @@ build: test  ## Construye sdist + wheel en dist/ (tras pasar los tests)
 publish: build  ## Publica en PyPI (requiere UV_PUBLISH_TOKEN o credenciales)
 	uv publish
 
-clean: clean-dist  ## Elimina artefactos de build
-	rm -rf build *.egg-info
-
-clean-dist:
-	rm -rf dist
+clean:  ## Elimina artefactos de build y caches (dist/, build/, egg-info, __pycache__)
+	rm -rf dist build *.egg-info __pycache__ .pytest_cache .ruff_cache
+	find . -type d -name __pycache__ -prune -exec rm -rf {} +
+	find . -type f -name '*.pyc' -delete
