@@ -1,0 +1,7 @@
+include LICENSE.txt
+include README.md
+recursive-include simple_markdown_crawler *.py py.typed
+prune tests
+prune example
+prune img
+global-exclude __pycache__ *.py[cod] *.egg-info
