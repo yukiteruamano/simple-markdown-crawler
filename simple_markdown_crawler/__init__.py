@@ -11,7 +11,7 @@ import requests
 from bs4 import BeautifulSoup
 from markdownify import markdownify as md
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __author__ = "Jose Maldonado (github.com/yukiteruamano)"
 __copyright__ = "(C) 2023 Paul Pierre. MIT License. 2025 Jose Maldonado. MIT License"
 __contributors__ = ["Jose Maldonado"]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "simple-markdown-crawler"
-version = "0.2.0"
+version = "0.3.0"
 description = "A multithreaded 🕸️ web crawler that recursively crawls a website and creates a 🔽 markdown file for each page"
 readme = "README.md"
 requires-python = ">=3.10"
